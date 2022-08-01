@@ -1,0 +1,17 @@
+name: LocalChats
+version: "${version}"
+main: me.boggerbyte.localchats.Main
+api-version: 1.18
+authors: [ BoggerByte ]
+description: You're can see players messages based on how far away are they from you
+
+commands:
+  shout:
+    description: "Send message for all players in current world"
+    usage: "/<command> Message that whole world will see"
+    permission: local-chats.shout
+
+permissions:
+  local-chats.shout:
+    description: Use the shout command
+    default: true

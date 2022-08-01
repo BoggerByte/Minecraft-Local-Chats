@@ -1,0 +1,5 @@
+# every variable is 1/2 of search box for players
+# measured in blocks (can be float value)
+max-x-distance: 10
+max-y-distance: 10
+max-z-distance: 10
