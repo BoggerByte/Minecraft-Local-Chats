@@ -1,5 +1,17 @@
-# every variable is 1/2 of search box for players
-# measured in blocks (can be float value)
-max-x-distance: 10
-max-y-distance: 10
-max-z-distance: 10
+# local chat search box
+# measured in blocks (can be fractional value)
+local-chat-radius: 10
+
+local-chat:
+  layout: "[<yellow>l</yellow>] <<gray><player></gray>> <message>"
+  on-command: false
+  on-prefix: false
+  prefix: ""
+
+global-chat:
+  layout: "[<red>g</red>] <<gray><player></gray>> <message>"
+  on-command: true
+  on-prefix: true
+  prefix: "!!"
+
+default-chat: "local"
