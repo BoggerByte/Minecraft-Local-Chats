@@ -2,9 +2,10 @@ package me.boggerbyte.localchats.listeners;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
 import me.boggerbyte.localchats.Main;
-import me.boggerbyte.localchats.PlayerFinder;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import me.boggerbyte.localchats.chat_executor.ChatExecutor;
+import me.boggerbyte.localchats.chat_executor.GlobalChatExecutor;
+import me.boggerbyte.localchats.chat_executor.LocalChatExecutor;
+import net.kyori.adventure.text.TextComponent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -12,10 +13,30 @@ import org.bukkit.plugin.Plugin;
 public class ChatListener implements Listener {
     private final Plugin plugin = Main.getInstance();
 
-    private final PlayerFinder playerFinder;
+    private final LocalChatExecutor localChatExecutor;
+    private final GlobalChatExecutor globalChatExecutor;
+    private final boolean localChatOnPrefix;
+    private final boolean globalChatOnPrefix;
+    private final String localChatPrefix;
+    private final String globalChatPrefix;
+    private final String defaultChat;
 
-    public ChatListener(PlayerFinder playerFinder) {
-        this.playerFinder = playerFinder;
+    public ChatListener(
+            LocalChatExecutor localChatExecutor,
+            GlobalChatExecutor globalChatExecutor,
+            boolean localChatOnPrefix,
+            boolean globalChatOnPrefix,
+            String localChatPrefix,
+            String globalChatPrefix,
+            String defaultChat
+    ) {
+        this.localChatExecutor = localChatExecutor;
+        this.globalChatExecutor = globalChatExecutor;
+        this.localChatOnPrefix = localChatOnPrefix;
+        this.globalChatOnPrefix = globalChatOnPrefix;
+        this.localChatPrefix = localChatPrefix;
+        this.globalChatPrefix = globalChatPrefix;
+        this.defaultChat = defaultChat;
     }
 
     @EventHandler
@@ -23,22 +44,17 @@ public class ChatListener implements Listener {
         event.setCancelled(true);
 
         var player = event.getPlayer();
-        var message = event.message();
+        var message = (TextComponent) event.message();
 
-        var localMessage = Component.text()
-                .append(Component.text("["))
-                .append(Component.text("local", NamedTextColor.YELLOW))
-                .append(Component.text("]"))
-                .append(Component.space())
-                .append(Component.text("<"))
-                .append(Component.text(player.getName(), NamedTextColor.GRAY))
-                .append(Component.text(">"))
-                .append(Component.space())
-                .append(message)
-                .build();
+        ChatExecutor chatExecutor = null;
+        if (defaultChat.equals("local") || localChatOnPrefix && message.content().startsWith(localChatPrefix))
+            chatExecutor = localChatExecutor;
+        if (defaultChat.equals("global") || globalChatOnPrefix && message.content().startsWith(globalChatPrefix))
+            chatExecutor = globalChatExecutor;
+        var finalChatExecutor = chatExecutor;
 
         // running task in sync mode because event is asynchronous
-        plugin.getServer().getScheduler().runTask(plugin, () -> playerFinder.findPlayersAround(player.getLocation())
-                    .forEach(p -> p.sendMessage(localMessage)));
+        if (chatExecutor != null) plugin.getServer().getScheduler().runTask(plugin,
+                () -> finalChatExecutor.onMessage(player, message));
     }
 }
