@@ -6,12 +6,21 @@ authors: [ BoggerByte ]
 description: You're can see players messages based on how far away are they from you
 
 commands:
-  shout:
+  local:
+    aliases: [ l ]
+    description: "Send message for players that are nearby"
+    usage: "/<command> Message that only nearby players will see"
+    permission: local-chats.local
+  global:
+    aliases: [ g ]
     description: "Send message for all players in current world"
-    usage: "/<command> Message that whole world will see"
-    permission: local-chats.shout
+    usage: "/<command> Message that whole server will see"
+    permission: local-chats.global
 
 permissions:
-  local-chats.shout:
-    description: Use the shout command
+  local-chats.local:
+    description: Use the local command
+    default: true
+  local-chats.global:
+    description: Use the global command
     default: true
