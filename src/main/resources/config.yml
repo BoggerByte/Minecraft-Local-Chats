@@ -1,11 +1,17 @@
-# local chat search box
-# measured in blocks (can be fractional value)
+# Measured in blocks around the player (can be fractional).
+# Defines how far players will see your message
 local-chat-radius: 10
 
 local-chat:
+  # Messages will be formatted by this layout and sent to player
+  # %player% - player's name
+  # %message% - player's message
   layout: "[&el&r] <&7%player%&r> %message%"
+  # Send message in chat by command
   on-command: false
+  # Send message in chat by predix in regular chat
   on-prefix: false
+  # Triggers if on-prefix is true
   prefix: ""
 
 global-chat:
@@ -14,4 +20,6 @@ global-chat:
   on-prefix: true
   prefix: "!!"
 
+# Defines default chat for regular chat messages
+# Can be "local" or "global"
 default-chat: "local"
