@@ -46,14 +46,21 @@ public class ChatListener implements Listener {
         var message = event.getMessage();
 
         ChatExecutor chatExecutor = null;
-        if (defaultChat.equals("local") || localChatOnPrefix && message.startsWith(localChatPrefix))
+        if (defaultChat.equals("local") || localChatOnPrefix && message.startsWith(localChatPrefix)) {
+            if (!player.hasPermission("local-chats.local")) return;
             chatExecutor = localChatExecutor;
-        if (defaultChat.equals("global") || globalChatOnPrefix && message.startsWith(globalChatPrefix))
+            message = message.substring(localChatPrefix.length());
+        }
+        if (defaultChat.equals("global") || globalChatOnPrefix && message.startsWith(globalChatPrefix)) {
+            if (!player.hasPermission("local-chats.global")) return;
             chatExecutor = globalChatExecutor;
-        var finalChatExecutor = chatExecutor;
+            message = message.substring(globalChatPrefix.length());
+        }
 
+        var finalChatExecutor = chatExecutor;
+        var finalMessage = message;
         // running task in sync mode because event is asynchronous
         if (chatExecutor != null) plugin.getServer().getScheduler().runTask(plugin,
-                () -> finalChatExecutor.onMessage(player, message));
+                () -> finalChatExecutor.onMessage(player, finalMessage));
     }
 }
