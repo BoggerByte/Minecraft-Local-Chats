@@ -19,6 +19,6 @@ commands:
 
 permissions:
   local-chats.local:
-    description: Use the local command
+    description: Send messages to local chat
   local-chats.global:
-    description: Use the global command
+    description: Send messages to global chat

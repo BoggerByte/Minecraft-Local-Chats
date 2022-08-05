@@ -44,7 +44,6 @@ public final class Main extends JavaPlugin {
         var localChatLayout = ChatColor.translateAlternateColorCodes('&', config.getString("local-chat.layout"));
         var localChatExecutor = new LocalChatExecutor(localChatLayout, config.getDouble("local-chat-radius"));
         var globalChatLayout = ChatColor.translateAlternateColorCodes('&', config.getString("global-chat.layout"));
-        System.out.println(config.getString("global-chat.layout"));
         var globalChatExecutor = new GlobalChatExecutor(globalChatLayout);
 
         var chatListener = new ChatListener(
@@ -57,14 +56,10 @@ public final class Main extends JavaPlugin {
                 config.getString("default-chat"));
         getServer().getPluginManager().registerEvents(chatListener, this);
 
-        if (config.getBoolean("local-chat.on-command")) {
-            var localChatCommand = new LocalChatCommand(localChatExecutor);
-            Objects.requireNonNull(getCommand("local")).setExecutor(localChatCommand);
-        }
-        if (config.getBoolean("global-chat.on-command")) {
-            var globalChatCommand = new GlobalChatCommand(globalChatExecutor);
-            Objects.requireNonNull(getCommand("global")).setExecutor(globalChatCommand);
-        }
+        var localChatCommand = new LocalChatCommand(!config.getBoolean("local-chat.on-command"), localChatExecutor);
+        Objects.requireNonNull(getCommand("local")).setExecutor(localChatCommand);
+        var globalChatCommand = new GlobalChatCommand(!config.getBoolean("global-chat.on-command"), globalChatExecutor);
+        Objects.requireNonNull(getCommand("global")).setExecutor(globalChatCommand);
     }
 
     public static Plugin getInstance() {
