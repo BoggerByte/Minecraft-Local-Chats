@@ -20,7 +20,5 @@ commands:
 permissions:
   local-chats.local:
     description: Use the local command
-    default: true
   local-chats.global:
     description: Use the global command
-    default: true
