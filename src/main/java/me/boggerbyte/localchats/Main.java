@@ -6,6 +6,7 @@ import me.boggerbyte.localchats.commands.GlobalChatCommand;
 import me.boggerbyte.localchats.commands.LocalChatCommand;
 import me.boggerbyte.localchats.listeners.ChatListener;
 import me.boggerbyte.localchats.utils.Logger;
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -40,8 +41,11 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         var config = getConfig();
 
-        var localChatExecutor = new LocalChatExecutor(config.getString("local-chat.layout"), config.getDouble("local-chat-radius"));
-        var globalChatExecutor = new GlobalChatExecutor(config.getString("global-chat.layout"));
+        var localChatLayout = ChatColor.translateAlternateColorCodes('&', config.getString("local-chat.layout"));
+        var localChatExecutor = new LocalChatExecutor(localChatLayout, config.getDouble("local-chat-radius"));
+        var globalChatLayout = ChatColor.translateAlternateColorCodes('&', config.getString("global-chat.layout"));
+        System.out.println(config.getString("global-chat.layout"));
+        var globalChatExecutor = new GlobalChatExecutor(globalChatLayout);
 
         var chatListener = new ChatListener(
                 localChatExecutor,

@@ -1,13 +1,12 @@
 package me.boggerbyte.localchats.listeners;
 
-import io.papermc.paper.event.player.AsyncChatEvent;
 import me.boggerbyte.localchats.Main;
 import me.boggerbyte.localchats.chat_executor.ChatExecutor;
 import me.boggerbyte.localchats.chat_executor.GlobalChatExecutor;
 import me.boggerbyte.localchats.chat_executor.LocalChatExecutor;
-import net.kyori.adventure.text.TextComponent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.Plugin;
 
 public class ChatListener implements Listener {
@@ -40,16 +39,16 @@ public class ChatListener implements Listener {
     }
 
     @EventHandler
-    public void onChatMessage(AsyncChatEvent event) {
+    public void onChatMessage(AsyncPlayerChatEvent event) {
         event.setCancelled(true);
 
         var player = event.getPlayer();
-        var message = (TextComponent) event.message();
+        var message = event.getMessage();
 
         ChatExecutor chatExecutor = null;
-        if (defaultChat.equals("local") || localChatOnPrefix && message.content().startsWith(localChatPrefix))
+        if (defaultChat.equals("local") || localChatOnPrefix && message.startsWith(localChatPrefix))
             chatExecutor = localChatExecutor;
-        if (defaultChat.equals("global") || globalChatOnPrefix && message.content().startsWith(globalChatPrefix))
+        if (defaultChat.equals("global") || globalChatOnPrefix && message.startsWith(globalChatPrefix))
             chatExecutor = globalChatExecutor;
         var finalChatExecutor = chatExecutor;
 

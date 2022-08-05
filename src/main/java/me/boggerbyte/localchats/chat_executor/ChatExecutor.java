@@ -1,6 +1,5 @@
 package me.boggerbyte.localchats.chat_executor;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 
 public abstract class ChatExecutor {
@@ -10,5 +9,5 @@ public abstract class ChatExecutor {
         this.chatMessageLayout = chatMessageLayout;
     }
 
-    public abstract void onMessage(Player player, Component message);
+    public abstract void onMessage(Player player, String message);
 }

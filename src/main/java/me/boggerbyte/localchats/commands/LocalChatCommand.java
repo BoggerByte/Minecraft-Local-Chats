@@ -1,7 +1,6 @@
 package me.boggerbyte.localchats.commands;
 
 import me.boggerbyte.localchats.chat_executor.LocalChatExecutor;
-import net.kyori.adventure.text.Component;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,7 +24,7 @@ public class LocalChatCommand implements CommandExecutor {
         if (args.length == 0) return false;
         if (!(sender instanceof Player player)) return false;
 
-        var message = Component.text(String.join(" ", args));
+        var message = String.join(" ", args);
         localChatExecutor.onMessage(player, message);
 
         return true;

@@ -3,13 +3,13 @@
 local-chat-radius: 10
 
 local-chat:
-  layout: "[<yellow>l</yellow>] <<gray><player></gray>> <message>"
+  layout: "[&el&r] <&7%player%&r> %message%"
   on-command: false
   on-prefix: false
   prefix: ""
 
 global-chat:
-  layout: "[<red>g</red>] <<gray><player></gray>> <message>"
+  layout: "[&cg&r] <&7%player%&r> %message%"
   on-command: true
   on-prefix: true
   prefix: "!!"
