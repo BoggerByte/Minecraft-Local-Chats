@@ -3,7 +3,7 @@ version: "${version}"
 main: me.boggerbyte.localchats.Main
 api-version: 1.18
 authors: [ BoggerByte ]
-description: You're can see players messages based on how far away are they from you
+description: You can see players messages based on how far away are they from you
 
 commands:
   local:
